@@ -35,6 +35,11 @@ chrome.webRequest.onCompleted.addListener(
 );
 
 chrome.runtime.onConnect.addListener((port) => {
+  chrome.storage.local.get(["db"]).then((result) => {
+    console.log("sending db");
+    port.postMessage({ db: result.db });
+  });
+
   port.onMessage.addListener((message) => {
     console.log("time: " + message.timestamp);
     port.postMessage({ status: "received" });
@@ -64,7 +69,7 @@ chrome.webRequest.onResponseStarted.addListener(
         files: ["tracker.js"],
       })
       .then(() => {
-        console.log("sending current data to ");
+        console.log("sending current data to worker");
       });
   },
   {
