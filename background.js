@@ -78,14 +78,6 @@ chrome.webRequest.onResponseStarted.addListener(
   },
 );
 
-async function loadTvData() {
-  chrome.storage.local.get(["db"]).then((result) => {
-    console.log("loading tv data");
-    console.log(result);
-    var shows = result["db"]["shows"];
-  });
-}
-
 async function loadSessionToken() {
   const cookie = await chrome.cookies.get({
     url: "https://gramaton.io",
