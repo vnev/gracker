@@ -37,7 +37,7 @@ chrome.webRequest.onCompleted.addListener(
 chrome.runtime.onConnect.addListener((port) => {
   chrome.storage.local.get(["db"]).then((result) => {
     console.log("sending db");
-    port.postMessage({ db: result.db });
+    port.postMessage(result["db"]);
   });
 
   port.onMessage.addListener((message) => {
@@ -49,10 +49,11 @@ chrome.runtime.onConnect.addListener((port) => {
 chrome.webRequest.onCompleted.addListener(
   (completedRequest) => {
     let url = completedRequest.url;
-    //console.log(completedRequest);
     // lets get the current session ID from cookies
     console.log("completed request");
     console.log(completedRequest);
+
+    let params = new URLSearchParams(url);
   },
   {
     urls: ["*://*.gramaton.io/series/getTvLink*"],
@@ -76,6 +77,14 @@ chrome.webRequest.onResponseStarted.addListener(
     urls: ["*://sv2.gramaton.io/tv/*", "*://sv2.gramaton.io/mv/*"],
   },
 );
+
+async function loadTvData() {
+  chrome.storage.local.get(["db"]).then((result) => {
+    console.log("loading tv data");
+    console.log(result);
+    var shows = result["db"]["shows"];
+  });
+}
 
 async function loadSessionToken() {
   const cookie = await chrome.cookies.get({

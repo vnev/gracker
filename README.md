@@ -25,7 +25,11 @@ The data communicated between the background and injected script has a particula
       volume: 0.0,
       totalSeasons: 1,
       totalEpisodes: 1,
-    }]
+    }],
+
+    cookie: {
+      sessionId: "...",
+    }
   }
 }
 ```
