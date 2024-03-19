@@ -1,8 +1,6 @@
 var port = chrome.runtime.connect({ name: "gracker" });
 var video = document.querySelector("video.jw-video");
 var params = new URLSearchParams(document.URL);
-console.log("url params");
-console.log(params);
 var currentTime = 0.0; // TODO: get this initial value from background
 var currentVolume = parseFloat(0.5).toFixed(1); // TODO: get this initial value from background
 
@@ -10,7 +8,6 @@ if (video) {
   // this event is first triggered when video starts playing
   video.addEventListener("playing", (_) => {
     // TODO: player has started, seek to currentTime
-    console.log("playing!");
     if (video.volume != currentVolume) {
       video.volume = currentVolume;
     }
@@ -28,9 +25,6 @@ if (video) {
   );
 
   port.onMessage.addListener((message) => {
-    console.log("received message from background");
-    console.log(message);
-
     if (params.get("season")) {
       if (!message["shows"]) {
         message["shows"] = [];
