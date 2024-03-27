@@ -1,12 +1,14 @@
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
-    chrome.storage.local.set({ db: { movies: {}, shows: {} } }).then(() => {
-      console.log("Initialized database.");
-      // todo: Debug, remove
-      chrome.storage.local.get(["db"]).then((data) => {
-        console.log(data);
+    chrome.storage.local
+      .set({ db: { movies: [{ type: "MOVIE" }], shows: [{ type: "SHOW" }] } })
+      .then(() => {
+        console.log("Initialized database.");
+        // todo: Debug, remove
+        chrome.storage.local.get(["db"]).then((data) => {
+          console.log(data);
+        });
       });
-    });
   }
 });
 

@@ -1,2 +1,4 @@
 *.swp
 *.tmp
+.zed/
+.DS_Store

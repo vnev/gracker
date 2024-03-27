@@ -3,6 +3,7 @@ var video = document.querySelector("video.jw-video");
 var params = new URLSearchParams(document.URL);
 var currentTime = 0.0; // TODO: get this initial value from background
 var currentVolume = parseFloat(0.5).toFixed(1); // TODO: get this initial value from background
+var currentlyWatching = {};
 
 if (video) {
   // this event is first triggered when video starts playing
@@ -36,17 +37,19 @@ if (video) {
         for (var i = 0; i < shows.length; ++i) {
           if (shows[i].url == document.URL) {
             // do checks to find out if we are on the latest episode
+            currentlyWatching = shows[i];
           }
         }
       } else {
-        shows.push({
+        currentlyWatching = {
+          type: "SHOW",
           title: document.querySelector("div.movie-info h1").innerText,
           currSeason: params.get("season"),
           currEpisode: params.get("episode"),
           url: document.URL,
           timestamp: currentTime,
           volume: currentVolume,
-        });
+        };
       }
     } else {
       if (!message["movies"]) {
@@ -60,15 +63,17 @@ if (video) {
           if (movies[i].url == document.URL) {
             // record found
             // do the necessary updates
+            currentlyWatching = movies[i];
           }
         }
       } else {
-        movies.push({
+        currentlyWatching = {
+          type: "MOVIE",
           title: document.querySelector("div.movie-info h1").innerText,
           timestamp: currentTime,
           volume: currentVolume,
           url: document.URL,
-        });
+        };
       }
     }
 
